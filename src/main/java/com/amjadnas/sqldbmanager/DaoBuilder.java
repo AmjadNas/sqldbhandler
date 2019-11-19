@@ -11,6 +11,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -32,7 +33,7 @@ public class DaoBuilder {
                     //.method(any())
                     .intercept(MethodDelegation.to(new Foo() {
 
-                        public List<User> intercept (Connection connection, Object...args) throws NoSuchMethodException, InstantiationException, SQLException, IllegalAccessException, InvocationTargetException, ClassNotFoundException {
+                        public Object intercept (Connection connection, Object...args) throws NoSuchMethodException, InstantiationException, SQLException, IllegalAccessException, InvocationTargetException, ClassNotFoundException {
                             String query = method.getAnnotation(Query.class).value();
                            /* Type returnType = method.getGenericReturnType();
                             if (returnType instanceof ParameterizedType){
@@ -41,8 +42,8 @@ public class DaoBuilder {
                                 QueryHandler handler = FactoryQueryHandler.getHandler("list");
                                 return handler.handleQuery(connection, query, c, args);
                             }*/
-                           System.out.println(query);
-                           return null;
+                           System.out.println(method.getGenericReturnType());
+                           return new ArrayList<>();
                         }
                     }, Foo.class));
 
@@ -53,8 +54,6 @@ public class DaoBuilder {
         dynamicType = builder.make()
                 .load(clazz.getClassLoader())
                 .getLoaded();
-        System.out.println(dynamicType.getInterfaces()[0]);
-        System.out.println(Arrays.toString(dynamicType.getDeclaredMethods()));
 
         return (T) ConstructorUtils.invokeConstructor(dynamicType);
     }

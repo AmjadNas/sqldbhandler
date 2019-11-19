@@ -14,6 +14,7 @@ import java.util.List;
 public interface Dummy {
 
     @Query("HIIIII")
-    List<User> getAll(Connection connection, Object...whArgs) throws NoSuchMethodException, InstantiationException, SQLException, IllegalAccessException, InvocationTargetException, ClassNotFoundException;
-
+    List<User> getAll(Connection connection, Object...whArgs);
+    @Query("BIIIIIIII")
+    List<User> getme(Connection connection, Object...whArgs);
 }
