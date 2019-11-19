@@ -2,6 +2,9 @@ package com.amjadnas.sqldbmanager;
 
 import com.amjadnas.sqldbmanager.annotations.Entity;
 import com.amjadnas.sqldbmanager.annotations.Query;
+import com.amjadnas.sqldbmanager.utills.ClassHelper;
+import com.amjadnas.sqldbmanager.utills.Pair;
+import com.amjadnas.sqldbmanager.utills.QueryBuilder;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

@@ -1,4 +1,4 @@
-package com.amjadnas.sqldbmanager;
+package com.amjadnas.sqldbmanager.queryhandlers;
 
 public final class FactoryQueryHandler {
 

@@ -1,4 +1,6 @@
-package com.amjadnas.sqldbmanager;
+package com.amjadnas.sqldbmanager.utills;
+
+import com.amjadnas.sqldbmanager.utills.Pair;
 
 import java.util.List;
 

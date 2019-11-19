@@ -1,17 +1,24 @@
-package com.amjadnas.sqldbmanager;
+package com.amjadnas.sqldbmanager.queryhandlers;
 
+import com.amjadnas.sqldbmanager.utills.ClassHelper;
 import org.apache.commons.lang3.reflect.ConstructorUtils;
 
 import java.lang.reflect.InvocationTargetException;
 import java.sql.*;
 
-public class SingleObjectQueryHandler<E> implements QueryHandler<E>{
+ class SingleObjectQueryHandler<E> implements QueryHandler<E> {
 
     @Override
-    public E handleQuery(Connection connection, String query, Class<?> cls) throws SQLException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    public E handleQuery(Connection connection, String query, Class<?> cls, Object...whereArgs) throws SQLException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, ClassNotFoundException {
 
         E obj = null;
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+            int bound = whereArgs.length;
+            for (int i = 0; i < bound; i++) {
+                preparedStatement.setObject(i+1, whereArgs[i]);
+            }
+
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
 
                 ResultSetMetaData metaData = resultSet.getMetaData();
@@ -27,8 +34,6 @@ public class SingleObjectQueryHandler<E> implements QueryHandler<E>{
                     }
                 }
 
-            } catch (ClassNotFoundException|ClassCastException e) {
-                e.printStackTrace();
             }
         }
 

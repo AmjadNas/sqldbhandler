@@ -1,14 +1,21 @@
 package com.amjadnas.sqldbmanager;
 
-import java.util.List;
+import java.lang.reflect.InvocationTargetException;
+import java.sql.SQLException;
 
-public class Ok {
+public class Ok  {
 
-    public static void main(String[] args) {
-        @SuppressWarnings("unchecked")
-        QueryHandler<List<User>> handler = FactoryQueryHandler.getHandler("list");
+    public static void main(String[] args) throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException, SQLException, ClassNotFoundException {
+//        QueryHandler<List<User>> handler = FactoryQueryHandler.getHandler("list");
+
+        // User user = new User("");
+
+
+
+        DaoBuilder.buildDao(Dummy.class).getAll(null,"");
 
     }
-}
 
+
+}
 

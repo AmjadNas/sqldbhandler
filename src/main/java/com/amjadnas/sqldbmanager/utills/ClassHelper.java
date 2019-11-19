@@ -1,4 +1,4 @@
-package com.amjadnas.sqldbmanager;
+package com.amjadnas.sqldbmanager.utills;
 
 import com.amjadnas.sqldbmanager.annotations.Column;
 
@@ -19,7 +19,7 @@ public class ClassHelper {
         classInfoHashMap = new HashMap<>();
     }
 
-    public <T> void addClass(Class<T> clazz) {
+    public void addClass(Class clazz) {
         ClassInfo classInfo = new ClassInfo(clazz.getName());
 
         Stream.of(clazz.getDeclaredFields())
@@ -103,7 +103,7 @@ public class ClassHelper {
     }
 
 
-    public static   <T>List<Pair> getFields(T obj){
+    public static <T>List<Pair> getFields(T obj){
         return Stream.of(obj.getClass().getDeclaredFields())
                 .filter(field ->  field.isAnnotationPresent(Column.class))
                 .map(field -> new Pair<String, Object>(field.getAnnotation(Column.class).name(), ClassHelper.runGetter(field.getAnnotation(Column.class).name(), obj)))
