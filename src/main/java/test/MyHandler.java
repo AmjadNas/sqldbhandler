@@ -2,7 +2,7 @@ package test;
 
 import com.amjadnas.sqldbmanager.annotations.Handler;
 
-@Handler(entities = {User.class})
+@Handler(entities = {Movie.class, User.class})
 public class MyHandler {
 
     private Dummy dummDao;

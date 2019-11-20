@@ -20,10 +20,13 @@ public class ClassHelper {
     }
 
     public void addClass(Class clazz) {
+        if (!AnnotationProcessor.isEntity(clazz))
+            throw new IllegalArgumentException(clazz.getSimpleName() + "is not an entity!");
+
         ClassInfo classInfo = new ClassInfo(clazz.getName());
 
         Stream.of(clazz.getDeclaredFields())
-                .filter(field -> field.isAnnotationPresent(Column.class))
+                .filter(AnnotationProcessor::isColumn)
                 .forEach(field -> {
                     classInfo.getters.put(field.getAnnotation(Column.class).name(), findMethod("get", field.getName(), clazz));
                     classInfo.setters.put(field.getAnnotation(Column.class).name(), findMethod("set", field.getName(), clazz));
@@ -106,7 +109,8 @@ public class ClassHelper {
     public static <T>List<Pair> getFields(T obj){
         return Stream.of(obj.getClass().getDeclaredFields())
                 .filter(field ->  field.isAnnotationPresent(Column.class))
-                .map(field -> new Pair<String, Object>(field.getAnnotation(Column.class).name(), ClassHelper.runGetter(field.getAnnotation(Column.class).name(), obj)))
+                .map(field -> new Pair<String, Object>(field.getAnnotation(Column.class).name()
+                        , ClassHelper.runGetter(field.getAnnotation(Column.class).name(), obj)))
                 .collect(Collectors.toList());
     }
 }
