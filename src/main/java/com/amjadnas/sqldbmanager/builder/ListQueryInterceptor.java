@@ -11,12 +11,12 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-final class ListInterceptor implements Interceptor {
+final class ListQueryInterceptor implements QueryInterceptor {
 
     private Class<?> returnTupe;
     private String query;
 
-    ListInterceptor(Type returnTupe, String query) {
+    ListQueryInterceptor(Type returnTupe, String query) {
         ParameterizedType pt = (ParameterizedType) returnTupe;
         this.returnTupe = (Class)pt.getActualTypeArguments()[0];
         this.query = query;

@@ -7,11 +7,11 @@ import org.apache.commons.lang3.reflect.ConstructorUtils;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.*;
 
-final class SingleInterceptor implements Interceptor {
+final class SingleQueryInterceptor implements QueryInterceptor {
     private Class<?> returnTupe;
     private String query;
 
-    SingleInterceptor(Class<?> returnTupe, String query) {
+    SingleQueryInterceptor(Class<?> returnTupe, String query) {
         this.returnTupe = returnTupe;
         this.query = query;
     }
