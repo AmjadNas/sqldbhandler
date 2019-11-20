@@ -1,4 +1,4 @@
-package com.amjadnas.sqldbmanager;
+package test;
 
 import com.amjadnas.sqldbmanager.annotations.Column;
 import com.amjadnas.sqldbmanager.annotations.Entity;

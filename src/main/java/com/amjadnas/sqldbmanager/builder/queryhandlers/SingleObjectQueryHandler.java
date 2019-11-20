@@ -1,17 +1,17 @@
-package com.amjadnas.sqldbmanager.queryhandlers;
+package com.amjadnas.sqldbmanager.builder.queryhandlers;
 
 import com.amjadnas.sqldbmanager.utills.ClassHelper;
 import org.apache.commons.lang3.reflect.ConstructorUtils;
 
 import java.lang.reflect.InvocationTargetException;
 import java.sql.*;
-import java.util.*;
 
- class ListQueryHandler<E> implements QueryHandler<List<E>> {
+ class SingleObjectQueryHandler<E> implements QueryHandler<E> {
 
-     public List<E> handleQuery(Connection connection, String query, Class<?> cls, Object...whereArgs) throws SQLException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, ClassNotFoundException {
+    @Override
+    public E handleQuery(Connection connection, String query, Class<?> cls, Object...whereArgs) throws SQLException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, ClassNotFoundException {
 
-        List<E> list = new ArrayList<>();
+        E obj = null;
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
             int bound = whereArgs.length;
@@ -23,8 +23,8 @@ import java.util.*;
 
                 ResultSetMetaData metaData = resultSet.getMetaData();
                 int colCount = metaData.getColumnCount();
-                while (resultSet.next()) {
-                    E obj = (E) ConstructorUtils.invokeConstructor(cls);
+                if (resultSet.next()) {
+                    obj = (E) ConstructorUtils.invokeConstructor(cls);
                     for (int i = 1; i <= colCount; i++) {
                         String className = metaData.getColumnClassName(i);
                         String columnName = metaData.getColumnName(i);
@@ -32,15 +32,12 @@ import java.util.*;
                         ClassHelper.runSetter(columnName, obj, resultSet.getObject(i, Class.forName(className)));
 
                     }
-                    list.add(obj);
                 }
 
             }
         }
 
 
-        return list;
+        return obj;
     }
-
-
 }

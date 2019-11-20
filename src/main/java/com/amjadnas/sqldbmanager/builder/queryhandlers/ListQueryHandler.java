@@ -1,38 +1,22 @@
-package com.amjadnas.sqldbmanager;
+package com.amjadnas.sqldbmanager.builder.queryhandlers;
 
 import com.amjadnas.sqldbmanager.utills.ClassHelper;
-import net.bytebuddy.implementation.bind.annotation.RuntimeType;
 import org.apache.commons.lang3.reflect.ConstructorUtils;
 
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
-public class ListInterceptor implements Interceptor{
+ class ListQueryHandler<E> implements QueryHandler<List<E>> {
 
-    private Class<?> returnTupe;
-    private String query;
+     public List<E> handleQuery(Connection connection, String query, Class<?> cls, Object...whereArgs) throws SQLException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, ClassNotFoundException {
 
-    public ListInterceptor(Type returnTupe, String query) {
-        ParameterizedType pt = (ParameterizedType) returnTupe;
-        this.returnTupe = (Class)pt.getActualTypeArguments()[0];
-        this.query = query;
-    }
-
-    @RuntimeType
-    @Override
-    public List<Object> intercept(Connection connection, Object... whereArgs) throws NoSuchMethodException, InstantiationException, SQLException, IllegalAccessException, InvocationTargetException, ClassNotFoundException {
-
-        List<Object> list = new ArrayList<>();
-
+        List<E> list = new ArrayList<>();
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
             int bound = whereArgs.length;
             for (int i = 0; i < bound; i++) {
-                preparedStatement.setObject(i + 1, whereArgs[i]);
+                preparedStatement.setObject(i+1, whereArgs[i]);
             }
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -40,7 +24,7 @@ public class ListInterceptor implements Interceptor{
                 ResultSetMetaData metaData = resultSet.getMetaData();
                 int colCount = metaData.getColumnCount();
                 while (resultSet.next()) {
-                    Object obj = ConstructorUtils.invokeConstructor(returnTupe);
+                    E obj = (E) ConstructorUtils.invokeConstructor(cls);
                     for (int i = 1; i <= colCount; i++) {
                         String className = metaData.getColumnClassName(i);
                         String columnName = metaData.getColumnName(i);
@@ -52,7 +36,11 @@ public class ListInterceptor implements Interceptor{
                 }
 
             }
-            return list;
         }
+
+
+        return list;
     }
+
+
 }

@@ -1,6 +1,4 @@
-package com.amjadnas.sqldbmanager.queryhandlers;
-
-import com.amjadnas.sqldbmanager.annotations.Query;
+package com.amjadnas.sqldbmanager.builder.queryhandlers;
 
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;

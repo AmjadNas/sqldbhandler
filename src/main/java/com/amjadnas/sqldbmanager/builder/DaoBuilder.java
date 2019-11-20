@@ -1,4 +1,4 @@
-package com.amjadnas.sqldbmanager;
+package com.amjadnas.sqldbmanager.builder;
 
 import com.amjadnas.sqldbmanager.annotations.Query;
 import net.bytebuddy.ByteBuddy;
@@ -12,9 +12,11 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.sql.Connection;
 
-public class DaoBuilder {
+final class DaoBuilder {
 
-    public static <T> T buildDao(Class<T> clazz) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+     private DaoBuilder(){}
+
+     static <T> T buildDao(Class<T> clazz) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
 
         DynamicType.Builder builder = new ByteBuddy()
                 .subclass(clazz)

@@ -1,4 +1,4 @@
-package com.amjadnas.sqldbmanager;
+package com.amjadnas.sqldbmanager.utills;
 
 import com.amjadnas.sqldbmanager.annotations.Entity;
 import com.amjadnas.sqldbmanager.annotations.Query;
