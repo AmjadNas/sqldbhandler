@@ -16,5 +16,5 @@ public interface Dummy {
     @Query("HIIIII")
     List<User> getAll(Connection connection, Object...whArgs);
     @Query("BIIIIIIII")
-    List<User> getme(Connection connection, Object...whArgs);
+    User getme(Connection connection, Object...whArgs);
 }

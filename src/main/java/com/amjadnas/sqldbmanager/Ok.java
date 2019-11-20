@@ -14,9 +14,9 @@ public class Ok  {
 
 
         Dummy dummy =  DaoBuilder.buildDao(Dummy.class);
-        List<User> users =dummy.getAll(null,"");
-        System.out.println(users);
-        dummy.getme(null,"");
+        List<User> users = dummy.getAll(null,"");
+        //System.out.println(users.get(0).getName());
+        //System.out.println(dummy.getme(null,""));
     }
 
 
