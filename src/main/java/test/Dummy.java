@@ -1,9 +1,7 @@
 package test;
 
 
-import com.amjadnas.sqldbmanager.annotations.Dao;
-import com.amjadnas.sqldbmanager.annotations.Insert;
-import com.amjadnas.sqldbmanager.annotations.Query;
+import com.amjadnas.sqldbmanager.annotations.*;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -20,4 +18,10 @@ public interface Dummy {
 
     @Insert
     Movie insert(Connection connection, Movie move);
+
+    @Update
+    Movie update(Connection connection, Movie move);
+
+    @Delete
+    Movie delete(Connection connection, Movie move);
 }
