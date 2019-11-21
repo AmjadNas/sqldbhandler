@@ -21,18 +21,18 @@ public class Ok  {
 
 
         Dummy dummy =  handler.getDummDao();
-        try(Connection connection = DBManager.getInstance().getConnection()){
-            List<Movie> users = dummy.getAll(connection);
+       // try(Connection connection = DBManager.getInstance().getConnection()){
+        //    List<Movie> users = dummy.getAll(connection);
 
           //  users.forEach(System.out::println);
 
-            Movie movie = dummy.getme(connection, 1);
+           // Movie movie = dummy.getme(connection, 1);
             Movie movie1 = new Movie(1, "aa", null, null, 2);
 
 
 
-            System.out.println(dummy.insert(connection,movie1));
-        }
+           System.out.println(dummy.insert(null,movie1));
+      //  }
         //System.out.println(users.get(0).getName());
         //System.out.println(dummy.getme(null,""));
     }

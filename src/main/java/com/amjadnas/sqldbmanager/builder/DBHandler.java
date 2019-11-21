@@ -1,7 +1,5 @@
 package com.amjadnas.sqldbmanager.builder;
 
-import com.amjadnas.sqldbmanager.annotations.Dao;
-import com.amjadnas.sqldbmanager.annotations.Handler;
 import com.amjadnas.sqldbmanager.utills.AnnotationProcessor;
 import com.amjadnas.sqldbmanager.utills.ClassHelper;
 import org.apache.commons.lang3.reflect.ConstructorUtils;

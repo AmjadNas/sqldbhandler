@@ -1,22 +1,20 @@
 package com.amjadnas.sqldbmanager.builder;
 
 import com.amjadnas.sqldbmanager.utills.ClassHelper;
-import net.bytebuddy.implementation.bind.annotation.RuntimeType;
 import org.apache.commons.lang3.reflect.ConstructorUtils;
 
 import java.lang.reflect.InvocationTargetException;
 import java.sql.*;
 
 final class SingleQueryInterceptor implements QueryInterceptor {
-    private Class<?> returnTupe;
+    private Class<?> returnType;
     private String query;
 
-    SingleQueryInterceptor(Class<?> returnTupe, String query) {
-        this.returnTupe = returnTupe;
+    SingleQueryInterceptor(Class<?> returnType, String query) {
+        this.returnType = returnType;
         this.query = query;
     }
 
-    @RuntimeType
     @Override
     public Object intercept(Connection connection, Object... whereArgs) throws NoSuchMethodException, InstantiationException, SQLException, IllegalAccessException, InvocationTargetException, ClassNotFoundException {
 
@@ -33,7 +31,7 @@ final class SingleQueryInterceptor implements QueryInterceptor {
                 ResultSetMetaData metaData = resultSet.getMetaData();
                 int colCount = metaData.getColumnCount();
                 if (resultSet.next()) {
-                    obj = ConstructorUtils.invokeConstructor(returnTupe);
+                    obj = ConstructorUtils.invokeConstructor(returnType);
                     for (int i = 1; i <= colCount; i++) {
                         String className = metaData.getColumnClassName(i);
                         String columnName = metaData.getColumnName(i);
@@ -45,8 +43,11 @@ final class SingleQueryInterceptor implements QueryInterceptor {
 
             }
         }
-
-
         return obj;
+    }
+
+    @Override
+    public Object intercept2(Connection connection, Object object) {
+        return null;
     }
 }

@@ -6,6 +6,7 @@ import com.amjadnas.sqldbmanager.annotations.Insert;
 import com.amjadnas.sqldbmanager.annotations.Query;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 
 @Dao
