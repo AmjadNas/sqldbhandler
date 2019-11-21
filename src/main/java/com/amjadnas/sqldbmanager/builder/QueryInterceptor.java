@@ -11,5 +11,5 @@ public interface QueryInterceptor {
     Object intercept(Connection connection, Object... whereArgs) throws NoSuchMethodException, InstantiationException, SQLException, IllegalAccessException, InvocationTargetException, ClassNotFoundException;
 
     @RuntimeType
-    Object intercept2(Connection connection, Object object);
+    Object intercept2(Connection connection, Object object) throws SQLException;
 }
