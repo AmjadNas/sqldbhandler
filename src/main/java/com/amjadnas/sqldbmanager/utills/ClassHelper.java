@@ -106,11 +106,12 @@ public class ClassHelper {
     }
 
 
-    public static <T>List<Pair> getFields(T obj){
+    public static <T>List<Pair<String, Object>> getFields(T obj){
         return Stream.of(obj.getClass().getDeclaredFields())
                 .filter(field ->  field.isAnnotationPresent(Column.class))
                 .map(field -> new Pair<String, Object>(field.getAnnotation(Column.class).name()
                         , ClassHelper.runGetter(field.getAnnotation(Column.class).name(), obj)))
+                .filter(stringObjectPair -> stringObjectPair.second != null)
                 .collect(Collectors.toList());
     }
 }

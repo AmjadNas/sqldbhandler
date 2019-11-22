@@ -28,6 +28,7 @@ public final class DeleteInterceptor implements QueryInterceptor{
         String delete = QueryBuilder.deleteQuery(entityAnnot.name(), "");
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(delete)){
+            //TODO configure deletion
           //  for (Pair p : pairs) {
          //       preparedStatement.setObject(i, p.second);
          //       i++;

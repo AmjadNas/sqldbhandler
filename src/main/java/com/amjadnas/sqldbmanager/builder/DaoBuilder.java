@@ -21,7 +21,7 @@ final class DaoBuilder {
      private DaoBuilder(){}
 
      static <T> T buildDao(Class<T> clazz) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-
+        //TODO refactor if statements
         DynamicType.Builder builder = new ByteBuddy()
                 .subclass(clazz)
                 .name(clazz.getPackage().getName() + "." + clazz.getSimpleName() + "Impl");
@@ -45,6 +45,18 @@ final class DaoBuilder {
                         .method(ElementMatchers.named(method.getName())
                                 .and(ElementMatchers.takesArguments(method.getParameterTypes())))
                         .intercept(MethodDelegation.to(new InsertInterceptor(), QueryInterceptor.class));
+            }
+            else if (AnnotationProcessor.isUpdate(method)){
+                builder = builder
+                        .method(ElementMatchers.named(method.getName())
+                                .and(ElementMatchers.takesArguments(method.getParameterTypes())))
+                        .intercept(MethodDelegation.to(new UpdateInterceptor(), QueryInterceptor.class));
+            }
+            else if (AnnotationProcessor.isDelete(method)){
+                builder = builder
+                        .method(ElementMatchers.named(method.getName())
+                                .and(ElementMatchers.takesArguments(method.getParameterTypes())))
+                        .intercept(MethodDelegation.to(new DeleteInterceptor(), QueryInterceptor.class));
             }
         }
         Class<?> dynamicType = builder.make()

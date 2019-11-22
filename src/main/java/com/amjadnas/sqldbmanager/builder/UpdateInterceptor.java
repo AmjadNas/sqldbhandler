@@ -27,10 +27,11 @@ public final class UpdateInterceptor implements QueryInterceptor{
             throw new IllegalArgumentException(obj + "is not an Entity");
         Entity entityAnnot = obj.getAnnotation(Entity.class);
 
-        List<Pair> pairs = ClassHelper.getFields(object);
+        List<Pair<String, Object>> pairs = ClassHelper.getFields(object);
         String update = QueryBuilder.updateQuery(entityAnnot.name(), "", pairs);
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(update)){
+            //TODO add support for enum and blobs
             for (Pair p : pairs) {
                 preparedStatement.setObject(i, p.second);
                 i++;

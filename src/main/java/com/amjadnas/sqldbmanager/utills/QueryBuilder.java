@@ -1,14 +1,12 @@
 package com.amjadnas.sqldbmanager.utills;
 
-import com.amjadnas.sqldbmanager.utills.Pair;
-
 import java.util.List;
 
 public final class QueryBuilder {
 
     private QueryBuilder() {}
 
-    public static String insertQuery(String tableName, List<Pair> pairs) {
+    public static String insertQuery(String tableName, List<Pair<String,Object>> pairs) {
 
         int i = 0;
 
@@ -35,16 +33,17 @@ public final class QueryBuilder {
         return stringBuilder.toString().concat(stringBuilder2.toString());
     }
 
-    public static String updateQuery(String tableName, String primary, Pair...pairs){
+    public static String updateQuery(String tableName, String primary, List<Pair<String, Object>> pairs){
         StringBuilder stringBuilder = new StringBuilder();
 
         stringBuilder.append("UPDATE ")
                 .append(tableName)
                 .append(" SET ");
-        int i = 0;
 
+        int i = 0;
+        int length = pairs.size();
         for (Pair p : pairs) {
-            if (i < pairs.length - 1) {
+            if (i < length - 1) {
                 stringBuilder.append(p.first)
                         .append("=?, ");
             } else {
