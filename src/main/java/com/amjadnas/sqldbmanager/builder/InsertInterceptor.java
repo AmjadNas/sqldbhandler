@@ -30,7 +30,7 @@ public final class InsertInterceptor implements QueryInterceptor {
 
         String insert = QueryBuilder.insertQuery(entityAnnot.name(), pairs);
         try (PreparedStatement preparedStatement = connection.prepareStatement(insert, Statement.RETURN_GENERATED_KEYS)) {
-            //TODO add support for enum and blobs
+            //TODO add support and blobs
             for (Pair p : pairs) {
                 preparedStatement.setObject(i, p.second);
                 i++;
