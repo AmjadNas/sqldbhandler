@@ -21,13 +21,13 @@ import java.util.stream.Stream;
 public class ClassHelper2 {
 
     private static ClassHelper2 instance;
-    private final Map<String, ClassInfo> classInfoHashMap;
+    private static final Map<String, ClassInfo> classInfoHashMap = new HashMap<>();
 
     private ClassHelper2() {
-        classInfoHashMap = new HashMap<>();
+
     }
 
-    public void addClass(Class clazz) {
+    public static void addClass(Class clazz) {
         if (instance == null)
             throw new IllegalStateException("ClassHelper is not initialized!");
         if (!AnnotationProcessor.isEntity(clazz))
@@ -60,7 +60,7 @@ public class ClassHelper2 {
         return instance;
     }
 
-    private class ClassInfo {
+    private static class ClassInfo {
         private final String name;
         private final Map<String, MethodHandle> setters;
         private final Map<String, MethodHandle> getters;
@@ -83,20 +83,21 @@ public class ClassHelper2 {
         }
     }
 
-    private MethodHandle findMethod(String type, Field field, Class<?> clazz) {
+    private static MethodHandle findMethod(String type, Field field, Class<?> clazz) {
         MethodHandles.Lookup publicLookup = MethodHandles.publicLookup();
         try {
-            String methodName = "";
+           // String methodName = "";
             for (Method method : clazz.getDeclaredMethods()) {
                 if ((method.getName().startsWith(type)) && (method.getName().length() == (field.getName().length() + 3))) {
                     if (method.getName().toLowerCase().endsWith(field.getName().toLowerCase())) {
-                        methodName = method.getName();
-                        break;
+
+                        return  publicLookup.unreflect(method);
+
                     }
                 }
             }
 
-            MethodType mt;
+          /*  MethodType mt;
             if (type.equals("get")) {
                 mt = MethodType.methodType(field.getType());
                 return publicLookup.findVirtual(clazz, methodName, mt);
@@ -104,11 +105,9 @@ public class ClassHelper2 {
             } else if (type.equals("set")) {
                 mt = MethodType.methodType(void.class, field.getType());
                 return publicLookup.findVirtual(clazz, methodName, mt);
-            }
+            }*/
 
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
             e.printStackTrace();
         }
 
@@ -125,7 +124,7 @@ public class ClassHelper2 {
 
         try {
             String className = o.getClass().getName();
-            ClassInfo classInfo = instance.classInfoHashMap.get(className);
+            ClassInfo classInfo = classInfoHashMap.get(className);
             Field field = classInfo.fields.get(columnName);
             Class clazz = field.getType();
             if (clazz.isEnum()) {
@@ -135,7 +134,7 @@ public class ClassHelper2 {
             }
 
 
-            return classInfo.setters.get(columnName).invokeWithArguments(value);
+             classInfo.setters.get(columnName).invoke(o,value);
         } catch (IllegalAccessException | InvocationTargetException e) {
             System.err.println("Could not determine method for column: " + columnName);
         } catch (Throwable throwable) {
@@ -152,7 +151,7 @@ public class ClassHelper2 {
         try {
 
             String className = o.getClass().getName();
-            ClassInfo classInfo = instance.classInfoHashMap.get(className);
+            ClassInfo classInfo = classInfoHashMap.get(className);
             Object object = classInfo.getters.get(columnName).invokeExact();
             if (object != null && object.getClass().isEnum()) {
                 return object.toString();
@@ -174,7 +173,7 @@ public class ClassHelper2 {
         if (instance == null)
             throw new IllegalStateException("ClassHelper is not initialized!");
 
-        return instance.classInfoHashMap.get(obj.getClass().getName())
+        return classInfoHashMap.get(obj.getClass().getName())
                 .fields.entrySet().stream()
                 .map((entry) -> convertToPairs(entry, obj))
                 .filter(pair -> pair.second != null)

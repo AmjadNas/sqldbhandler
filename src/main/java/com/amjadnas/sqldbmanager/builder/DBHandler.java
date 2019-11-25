@@ -22,7 +22,7 @@ public final class DBHandler {
 
             for (Class entity : AnnotationProcessor.getEntities(handlerClass)) {
                 if (AnnotationProcessor.isEntity(entity))
-                    classHelper.addClass(entity);
+                    ClassHelper2.addClass(entity);
             }
 
             for (Field field : handlerClass.getDeclaredFields()) {
