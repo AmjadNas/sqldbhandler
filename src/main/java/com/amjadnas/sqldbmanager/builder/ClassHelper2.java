@@ -18,7 +18,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class ClassHelper2 {
+class ClassHelper2 {
 
     private static ClassHelper2 instance;
     private static final Map<String, ClassInfo> classInfoHashMap = new HashMap<>();
@@ -27,7 +27,7 @@ public class ClassHelper2 {
 
     }
 
-    public static void addClass(Class clazz) {
+    static void addClass(Class clazz) {
         if (instance == null)
             throw new IllegalStateException("ClassHelper is not initialized!");
         if (!AnnotationProcessor.isEntity(clazz))
@@ -48,7 +48,7 @@ public class ClassHelper2 {
         classInfoHashMap.put(classInfo.name, classInfo);
     }
 
-    public static ClassHelper2 getInstance() {
+    static ClassHelper2 getInstance() {
         if (instance == null) {
             synchronized (ClassHelper2.class) {
                 if (instance == null) {
@@ -115,12 +115,12 @@ public class ClassHelper2 {
         return null;
     }
 
-    public static <E> Object runSetter(String columnName, E o, Object value) {
+    static void runSetter(String columnName, Object o, Object value) {
         if (instance == null)
             throw new IllegalStateException("ClassHelper is not initialized!");
 
         if (value == null)
-            return null;
+            return;
 
         try {
             String className = o.getClass().getName();
@@ -129,8 +129,8 @@ public class ClassHelper2 {
             Class clazz = field.getType();
             if (clazz.isEnum()) {
 
-                // value = Enum.valueOf(clazz, value.toString());
-                value = null;
+                 value = Enum.valueOf(clazz, value.toString());
+               //value = null;
             }
 
 
@@ -141,18 +141,17 @@ public class ClassHelper2 {
             throwable.printStackTrace();
         }
 
-        return null;
     }
 
 
-    public static <T> Object runGetter(String columnName, T o) {
+    private static <T> Object runGetter(String columnName, Object o) {
         if (instance == null)
             throw new IllegalStateException("ClassHelper is not initialized!");
         try {
 
             String className = o.getClass().getName();
             ClassInfo classInfo = classInfoHashMap.get(className);
-            Object object = classInfo.getters.get(columnName).invokeExact();
+            Object object = classInfo.getters.get(columnName).invoke(o);
             if (object != null && object.getClass().isEnum()) {
                 return object.toString();
             }
@@ -168,7 +167,7 @@ public class ClassHelper2 {
     }
 
 
-    public static <T> List<Pair<String, Object>> getFields(T obj) {
+    static <T> List<Pair<String, Object>> getFields(T obj) {
 
         if (instance == null)
             throw new IllegalStateException("ClassHelper is not initialized!");
