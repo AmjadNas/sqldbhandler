@@ -18,7 +18,7 @@ public final class DBHandler {
                 throw new IllegalArgumentException(handlerClass.getSimpleName() + "is not a handler!");
 
             T handler = ConstructorUtils.invokeConstructor(handlerClass);
-            ClassHelper classHelper = ClassHelper.getInstance();
+            ClassHelper2 classHelper = ClassHelper2.getInstance();
 
             for (Class entity : AnnotationProcessor.getEntities(handlerClass)) {
                 if (AnnotationProcessor.isEntity(entity))

@@ -26,7 +26,7 @@ public final class InsertInterceptor implements QueryInterceptor {
             throw new IllegalArgumentException(obj + "is not an Entity");
         Entity entityAnnot = obj.getAnnotation(Entity.class);
 
-        List<Pair<String,Object>> pairs = ClassHelper.getFields(object);
+        List<Pair<String,Object>> pairs = ClassHelper2.getFields(object);
 
         String insert = QueryBuilder.insertQuery(entityAnnot.name(), pairs);
         try (PreparedStatement preparedStatement = connection.prepareStatement(insert, Statement.RETURN_GENERATED_KEYS)) {

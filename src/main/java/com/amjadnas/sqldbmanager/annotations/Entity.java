@@ -11,5 +11,7 @@ import java.lang.annotation.Target;
 public @interface Entity {
 
     String name();
+    String[] primaryKey();
+    boolean isAutoIncrement() default false;
 
 }

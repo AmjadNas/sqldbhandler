@@ -1,8 +1,13 @@
-package com.amjadnas.sqldbmanager.utills;
+package com.amjadnas.sqldbmanager.builder;
 
 import com.amjadnas.sqldbmanager.annotations.Column;
+import com.amjadnas.sqldbmanager.utills.AnnotationProcessor;
+import com.amjadnas.sqldbmanager.utills.Pair;
 import test.Category;
 
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.MethodType;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -13,12 +18,12 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class ClassHelper {
+public class ClassHelper2 {
 
-    private static ClassHelper instance;
+    private static ClassHelper2 instance;
     private final Map<String, ClassInfo> classInfoHashMap;
 
-    private ClassHelper() {
+    private ClassHelper2() {
         classInfoHashMap = new HashMap<>();
     }
 
@@ -35,19 +40,19 @@ public class ClassHelper {
                 .forEach(field -> {
                     String fieldColumnName = field.getAnnotation(Column.class).name();
                     classInfo.fields.put(fieldColumnName, field);
-                    classInfo.getters.put(fieldColumnName, findMethod("get", field.getName(), clazz));
-                    classInfo.setters.put(fieldColumnName, findMethod("set", field.getName(), clazz));
+                    classInfo.getters.put(fieldColumnName, findMethod("get", field, clazz));
+                    classInfo.setters.put(fieldColumnName, findMethod("set", field, clazz));
                 });
 
 
         classInfoHashMap.put(classInfo.name, classInfo);
     }
 
-    public static ClassHelper getInstance() {
+    public static ClassHelper2 getInstance() {
         if (instance == null) {
-            synchronized (ClassHelper.class) {
+            synchronized (ClassHelper2.class) {
                 if (instance == null) {
-                    instance = new ClassHelper();
+                    instance = new ClassHelper2();
                 }
             }
 
@@ -57,9 +62,9 @@ public class ClassHelper {
 
     private class ClassInfo {
         private final String name;
-        private final Map<String, Method> setters;
-        private final Map<String, Method> getters;
-        private final Map<String, Field>  fields;
+        private final Map<String, MethodHandle> setters;
+        private final Map<String, MethodHandle> getters;
+        private final Map<String, Field> fields;
 
         ClassInfo(String name) {
             this.name = name;
@@ -78,14 +83,36 @@ public class ClassHelper {
         }
     }
 
-    private Method findMethod(String type, String fieldName, Class<?> clazz) {
-        for (Method method : clazz.getDeclaredMethods()) {
-            if ((method.getName().startsWith(type)) && (method.getName().length() == (fieldName.length() + 3))) {
-                if (method.getName().toLowerCase().endsWith(fieldName.toLowerCase())) {
-                    return method;
+    private MethodHandle findMethod(String type, Field field, Class<?> clazz) {
+        MethodHandles.Lookup publicLookup = MethodHandles.publicLookup();
+        try {
+            String methodName = "";
+            for (Method method : clazz.getDeclaredMethods()) {
+                if ((method.getName().startsWith(type)) && (method.getName().length() == (field.getName().length() + 3))) {
+                    if (method.getName().toLowerCase().endsWith(field.getName().toLowerCase())) {
+                        methodName = method.getName();
+                        break;
+                    }
                 }
             }
+
+            MethodType mt;
+            if (type.equals("get")) {
+                mt = MethodType.methodType(field.getType());
+                return publicLookup.findVirtual(clazz, methodName, mt);
+
+            } else if (type.equals("set")) {
+                mt = MethodType.methodType(void.class, field.getType());
+                return publicLookup.findVirtual(clazz, methodName, mt);
+            }
+
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
         }
+
+
         return null;
     }
 
@@ -101,21 +128,22 @@ public class ClassHelper {
             ClassInfo classInfo = instance.classInfoHashMap.get(className);
             Field field = classInfo.fields.get(columnName);
             Class clazz = field.getType();
-            if (clazz.isEnum()){
+            if (clazz.isEnum()) {
 
-               // value = Enum.valueOf(clazz, value.toString());
+                // value = Enum.valueOf(clazz, value.toString());
                 value = null;
-             }
+            }
 
 
-            return classInfo.setters.get(columnName).invoke(o, value);
+            return classInfo.setters.get(columnName).invokeWithArguments(value);
         } catch (IllegalAccessException | InvocationTargetException e) {
             System.err.println("Could not determine method for column: " + columnName);
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
         }
 
         return null;
     }
-
 
 
     public static <T> Object runGetter(String columnName, T o) {
@@ -125,21 +153,23 @@ public class ClassHelper {
 
             String className = o.getClass().getName();
             ClassInfo classInfo = instance.classInfoHashMap.get(className);
-            Object object = classInfo.getters.get(columnName).invoke(o);
+            Object object = classInfo.getters.get(columnName).invokeExact();
             if (object != null && object.getClass().isEnum()) {
                 return object.toString();
             }
-                return object;
+            return object;
 
         } catch (IllegalAccessException | InvocationTargetException e) {
             System.err.println("Could not determine method for column: " + columnName);
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
         }
 
         return null;
     }
 
 
-    public static <T>List<Pair<String, Object>> getFields(T obj){
+    public static <T> List<Pair<String, Object>> getFields(T obj) {
 
         if (instance == null)
             throw new IllegalStateException("ClassHelper is not initialized!");
@@ -151,7 +181,7 @@ public class ClassHelper {
                 .collect(Collectors.toList());
     }
 
-    private static Pair<String, Object> convertToPairs(Map.Entry<String, Field> entry, Object obj){
+    private static Pair<String, Object> convertToPairs(Map.Entry<String, Field> entry, Object obj) {
         Object value = runGetter(entry.getKey(), obj);
 
         if (entry.getValue().isEnumConstant() && value != null)

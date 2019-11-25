@@ -39,7 +39,7 @@ final class ListQueryInterceptor implements QueryInterceptor {
                     for (int i = 1; i <= colCount; i++) {
                         String className = metaData.getColumnClassName(i);
                         String columnName = metaData.getColumnName(i);
-                        ClassHelper.runSetter(columnName, obj, resultSet.getObject(i, Class.forName(className)));
+                        ClassHelper2.runSetter(columnName, obj, resultSet.getObject(i, Class.forName(className)));
                     }
                     list.add(obj);
                 }

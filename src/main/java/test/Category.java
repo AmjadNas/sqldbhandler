@@ -1,9 +1,9 @@
 package test;
 
 public enum Category {
-    Comedy,
-    Horror,
-    Family,
-    Kids,
-    Action
+    comedy,
+    horror,
+    family,
+    kids,
+    action
 }

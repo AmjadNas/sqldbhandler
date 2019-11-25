@@ -5,7 +5,7 @@ import com.amjadnas.sqldbmanager.annotations.Entity;
 
 import java.sql.Time;
 
-@Entity(name="movie")
+@Entity(name="movie", primaryKey = "id", isAutoIncrement = true)
 public class Movie {
 
     @Column(name="id")

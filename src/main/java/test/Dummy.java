@@ -10,10 +10,10 @@ import java.util.List;
 @Dao
 public interface Dummy {
 
-    @Query("SELECT id from movie")
+    @Query("SELECT * from movie")
     List<Movie> getAll(Connection connection, Object... whArgs);
 
-    @Query("SELECT id from movie where id = ?")
+    @Query("SELECT * from movie where id = ?")
     Movie getme(Connection connection, Object... whArgs);
 
     @Insert

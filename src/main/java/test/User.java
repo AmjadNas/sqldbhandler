@@ -3,7 +3,7 @@ package test;
 import com.amjadnas.sqldbmanager.annotations.Column;
 import com.amjadnas.sqldbmanager.annotations.Entity;
 
-@Entity(name = "users")
+@Entity(name = "users", primaryKey = {"username"})
 public class User {
 
 

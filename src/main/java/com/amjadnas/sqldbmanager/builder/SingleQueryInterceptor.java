@@ -36,7 +36,7 @@ final class SingleQueryInterceptor implements QueryInterceptor {
                         String className = metaData.getColumnClassName(i);
                         String columnName = metaData.getColumnName(i);
 
-                        ClassHelper.runSetter(columnName, obj, resultSet.getObject(i, Class.forName(className)));
+                        ClassHelper2.runSetter(columnName, obj, resultSet.getObject(i, Class.forName(className)));
 
                     }
                 }
