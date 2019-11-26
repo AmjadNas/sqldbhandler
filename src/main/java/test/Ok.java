@@ -36,7 +36,10 @@ public class Ok  {
             long start = System.nanoTime();
             List<Movie> users = dummy.getAll(connection);
           //System.out.println(dummy.insert(connection,movie1));
-           System.out.println((System.nanoTime()- start));
+           System.out.println(users);
+            users.get(0).setName("Gone by the bit");
+           System.out.println(dummy.update( connection,users.get(0)));
+
         }
         //System.out.println(users.get(0).getName());
         //System.out.println(dummy.getme(null,""));
