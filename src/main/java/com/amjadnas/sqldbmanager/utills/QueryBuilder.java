@@ -54,11 +54,19 @@ public final class QueryBuilder {
             i++;
         }
 
+        i = 0;
         stringBuilder.append(" WHERE ");
-        for (String key :
-                primary) {
-            stringBuilder.append(key)
-                    .append("=? ");
+        for (String key : primary) {
+            if (i < primary.length-1) {
+                stringBuilder.append(key)
+                        .append("=? ")
+                        .append(" AND ");
+            }
+            else {
+                stringBuilder.append(key)
+                        .append("=?");
+            }
+            i++;
         }
         stringBuilder.append(";");
 
@@ -69,10 +77,21 @@ public final class QueryBuilder {
         StringBuilder stringBuilder = new StringBuilder();
 
         stringBuilder.append("DELETE FROM ")
-                .append(tableName);
+                .append(tableName)
+                .append(" WHERE ");
+        int i = 0;
         for (String key :  primary) {
-            stringBuilder.append(key)
-                    .append("=? ");
+            if (i < primary.length-1) {
+                stringBuilder.append(key)
+                        .append("=? ")
+                        .append(" AND ");
+            }
+            else {
+                stringBuilder.append(key)
+                        .append("=?");
+            }
+            i++;
+
         }
         stringBuilder.append(";");
 
