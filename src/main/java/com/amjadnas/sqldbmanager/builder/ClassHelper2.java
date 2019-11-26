@@ -144,7 +144,7 @@ class ClassHelper2 {
     }
 
 
-    private static <T> Object runGetter(String columnName, Object o) {
+    static <T> Object runGetter(String columnName, Object o) {
         if (instance == null)
             throw new IllegalStateException("ClassHelper is not initialized!");
         try {

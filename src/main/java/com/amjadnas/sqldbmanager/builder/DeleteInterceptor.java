@@ -68,7 +68,7 @@ public final class DeleteInterceptor implements QueryInterceptor{
               preparedStatement.setObject(i, p);
               i++;
            }
-           preparedStatement.executeUpdate();
+           i = preparedStatement.executeUpdate();
         }
         if (returnType.isPrimitive()){
             return i;

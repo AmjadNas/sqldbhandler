@@ -9,6 +9,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -55,8 +56,6 @@ public final class UpdateInterceptor implements QueryInterceptor{
         if (returnType.isPrimitive())
             return i;
 
-
-
         return object;
     }
 
@@ -67,13 +66,18 @@ public final class UpdateInterceptor implements QueryInterceptor{
         if (!AnnotationProcessor.isEntity(obj))
             throw new IllegalArgumentException(obj + "is not an Entity");
         Entity entityAnnot = obj.getAnnotation(Entity.class);
+
         String[] primaryKey = entityAnnot.primaryKey();
         List<Pair<String, Object>> pairs = ClassHelper2.getFields(object);
-        List<Object> values = Stream.of(primaryKey)
-                .map(key -> pairs.stream()
-                        .filter(pair -> pair.first.equals(key))
-                        .map(pair -> pair.second))
-                .collect(Collectors.toList());
+        List<Object> values = new ArrayList<>();
+
+        for (String key : primaryKey) {
+            for (Pair pair : pairs)
+                if (pair.first.equals(key)){
+                    values.add(pair.second);
+                }
+        }
+
         String update = QueryBuilder.updateQuery(entityAnnot.name(), primaryKey, pairs);
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(update)){
