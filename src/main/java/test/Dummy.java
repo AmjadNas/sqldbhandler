@@ -10,7 +10,7 @@ import java.util.List;
 @Dao
 public interface Dummy {
 
-    @Query("SELECT * from movie")
+    @Query("SELECT * from movie limit 10")
     List<Movie> getAll(Connection connection, Object... whArgs);
 
     @Query("SELECT * from movie where id = ?")
@@ -24,4 +24,7 @@ public interface Dummy {
 
     @Delete
     Movie delete(Connection connection, Movie move);
+
+    @Delete(deleteBy = {"name"})
+    int delete(Connection connection, Object...whargs);
 }
