@@ -1,4 +1,4 @@
-package com.amjadnas.sqldbmanager;
+package test;
 
 import com.amjadnas.sqldbmanager.builder.DBHandler;
 import test.*;

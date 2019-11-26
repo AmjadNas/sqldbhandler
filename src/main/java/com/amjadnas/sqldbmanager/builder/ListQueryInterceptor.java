@@ -1,6 +1,5 @@
 package com.amjadnas.sqldbmanager.builder;
 
-import com.amjadnas.sqldbmanager.utills.ClassHelper;
 import org.apache.commons.lang3.reflect.ConstructorUtils;
 
 import java.lang.reflect.InvocationTargetException;
@@ -50,6 +49,6 @@ final class ListQueryInterceptor implements QueryInterceptor {
 
     @Override
     public Object intercept2(Connection connection, Object object) {
-        return null;
+        throw new RuntimeException("Wrong method signature.  method arguments must be (Connection, Object[]) not (Connection, Object)");
     }
 }

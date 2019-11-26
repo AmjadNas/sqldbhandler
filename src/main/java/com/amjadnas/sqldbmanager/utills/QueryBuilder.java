@@ -4,9 +4,10 @@ import java.util.List;
 
 public final class QueryBuilder {
 
-    private QueryBuilder() {}
+    private QueryBuilder() {
+    }
 
-    public static String insertQuery(String tableName, List<Pair<String,Object>> pairs) {
+    public static String insertQuery(String tableName, List<Pair<String, Object>> pairs) {
 
         int i = 0;
 
@@ -33,7 +34,7 @@ public final class QueryBuilder {
         return stringBuilder.toString().concat(stringBuilder2.toString());
     }
 
-    public static String updateQuery(String tableName, String primary, List<Pair<String, Object>> pairs){
+    public static String updateQuery(String tableName, String[] primary, List<Pair<String, Object>> pairs) {
         StringBuilder stringBuilder = new StringBuilder();
 
         stringBuilder.append("UPDATE ")
@@ -53,21 +54,29 @@ public final class QueryBuilder {
             i++;
         }
 
-        stringBuilder.append(" WHERE ")
-                .append(primary)
-                .append("=?;");
+        stringBuilder.append(" WHERE ");
+        for (String key :
+                primary) {
+            stringBuilder.append(key)
+                    .append("=? ");
+        }
+        stringBuilder.append(";");
 
-       return stringBuilder.toString();
+        return stringBuilder.toString();
     }
 
-    public static String deleteQuery(String tableName, String primary){
-        String delete = "DELETE FROM "
-                .concat(tableName)
-                .concat(" WHERE ")
-                .concat(primary)
-                .concat("=?;");
+    public static String deleteQuery(String tableName, String[] primary) {
+        StringBuilder stringBuilder = new StringBuilder();
 
-        return delete;
+        stringBuilder.append("DELETE FROM ")
+                .append(tableName);
+        for (String key :  primary) {
+            stringBuilder.append(key)
+                    .append("=? ");
+        }
+        stringBuilder.append(";");
+
+        return stringBuilder.toString();
     }
 
 }
