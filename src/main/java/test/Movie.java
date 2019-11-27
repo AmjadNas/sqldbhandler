@@ -23,6 +23,17 @@ public class Movie {
     @Column(name="producer")
     private Integer producer;
 
+    @Column(name="image")
+    byte[] image;
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
+
     public Movie(){
 
     }
@@ -83,6 +94,7 @@ public class Movie {
                 ", category=" + category +
                 ", length=" + length +
                 ", producer=" + producer +
+                " vyt " + image +
                 '}';
     }
 }
