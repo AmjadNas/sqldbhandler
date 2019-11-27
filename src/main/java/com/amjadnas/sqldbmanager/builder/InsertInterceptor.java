@@ -9,7 +9,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.sql.*;
 import java.util.List;
 
-public final class InsertInterceptor implements QueryInterceptor {
+final class InsertInterceptor implements QueryInterceptor {
 
     private Class returnType;
 

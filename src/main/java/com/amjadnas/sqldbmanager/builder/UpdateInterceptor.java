@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public final class UpdateInterceptor implements QueryInterceptor{
+final class UpdateInterceptor implements QueryInterceptor{
 
     private Class returnType;
     private String[] keys;
