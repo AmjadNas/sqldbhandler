@@ -22,6 +22,7 @@ class ClassHelper2 {
 
     private static ClassHelper2 instance;
     private static final Map<String, ClassInfo> classInfoHashMap = new HashMap<>();
+    private static final MethodHandles.Lookup publicLookup = MethodHandles.publicLookup();
 
     private ClassHelper2() {
 
@@ -84,7 +85,7 @@ class ClassHelper2 {
     }
 
     private static MethodHandle findMethod(String type, Field field, Class<?> clazz) {
-        MethodHandles.Lookup publicLookup = MethodHandles.publicLookup();
+
         try {
            // String methodName = "";
             for (Method method : clazz.getDeclaredMethods()) {
@@ -96,17 +97,6 @@ class ClassHelper2 {
                     }
                 }
             }
-
-          /*  MethodType mt;
-            if (type.equals("get")) {
-                mt = MethodType.methodType(field.getType());
-                return publicLookup.findVirtual(clazz, methodName, mt);
-
-            } else if (type.equals("set")) {
-                mt = MethodType.methodType(void.class, field.getType());
-                return publicLookup.findVirtual(clazz, methodName, mt);
-            }*/
-
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
@@ -144,7 +134,7 @@ class ClassHelper2 {
     }
 
 
-    static <T> Object runGetter(String columnName, Object o) {
+    static Object runGetter(String columnName, Object o) {
         if (instance == null)
             throw new IllegalStateException("ClassHelper is not initialized!");
         try {

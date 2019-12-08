@@ -1,6 +1,7 @@
 package com.amjadnas.sqldbmanager.builder;
 
 import com.amjadnas.sqldbmanager.annotations.Entity;
+import com.amjadnas.sqldbmanager.exceptions.IllegalMethodException;
 import com.amjadnas.sqldbmanager.utills.AnnotationProcessor;
 import com.amjadnas.sqldbmanager.utills.Pair;
 import com.amjadnas.sqldbmanager.utills.QueryBuilder;
@@ -13,15 +14,25 @@ final class InsertInterceptor implements QueryInterceptor {
 
     private Class returnType;
 
-    public InsertInterceptor(Class returnType) {
+    InsertInterceptor(Class returnType) {
         this.returnType = returnType;
     }
 
     @Override
     public Object intercept(Connection connection, Object... whereArgs) throws NoSuchMethodException, InstantiationException, SQLException, IllegalAccessException, InvocationTargetException, ClassNotFoundException {
-        throw new RuntimeException("Wrong insert method signature. Insert method arguments must be (Connection, Object) not (Connection, Object[])");
+        throw new IllegalMethodException("Wrong insert method signature. Insert method arguments must be (Connection, Object) not (Connection, Object[])");
     }
 
+    /**
+     *
+     * @param connection from the database to process the request
+     * @param object the object to be inserted to the database. Note that if the object is an Entity then the method will throw an IllegalArgumentException
+     * @return if the return type is int then the method will return int if the object has an auto-incremented id then it will return the generated id
+     * else it will return the number of successful operations. if the reutrn type is an object then the method will return the object and
+     * in case the object has auto-incremented id then it will return it with the generated id.
+     * Note that the return type can be void.
+     * @throws SQLException if the database throws a special sql error
+     */
     @Override
     public Object intercept2(Connection connection, Object object) throws SQLException {
         Class<?> obj = object.getClass();
@@ -34,23 +45,26 @@ final class InsertInterceptor implements QueryInterceptor {
 
         String insert = QueryBuilder.insertQuery(entityAnnot.name(), pairs);
         try (PreparedStatement preparedStatement = connection.prepareStatement(insert, Statement.RETURN_GENERATED_KEYS)) {
-            //TODO add support and blobs
             for (Pair p : pairs) {
                 preparedStatement.setObject(i, p.second);
                 i++;
             }
             i = preparedStatement.executeUpdate();
-            if (returnType.isPrimitive())
-                return i;
+
 
             if (i > 0 && entityAnnot.isAutoIncrement()) {
                 try (ResultSet generatedID = preparedStatement.getGeneratedKeys()) {
-                    if (generatedID.next())
-                        ClassHelper2.runSetter(entityAnnot.primaryKey()[0], object, generatedID.getInt(1));
+                    if (generatedID.next()) {
+                        i = generatedID.getInt(1);
+                        ClassHelper2.runSetter(entityAnnot.primaryKey()[0], object, i);
+                    }
                 }
             }
 
         }
+
+        if (returnType.isPrimitive())
+            return i;
 
         return object;
     }

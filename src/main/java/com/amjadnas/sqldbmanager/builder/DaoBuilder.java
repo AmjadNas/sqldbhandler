@@ -13,7 +13,6 @@ import org.apache.commons.lang3.reflect.ConstructorUtils;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
-import java.util.stream.Stream;
 
 final class DaoBuilder {
 
@@ -21,7 +20,7 @@ final class DaoBuilder {
 
      static <T> T buildDao(Class<T> clazz) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         //TODO refactor if statements
-        DynamicType.Builder builder = new ByteBuddy()
+        DynamicType.Builder<? extends T> builder = new ByteBuddy()
                 .subclass(clazz)
                 .name(clazz.getPackage().getName() + "." + clazz.getSimpleName() + "Impl");
         for (Method method : clazz.getDeclaredMethods()) {
@@ -62,10 +61,10 @@ final class DaoBuilder {
         }
 
 
-        Class<?> dynamicType = builder.make()
+        Class<? extends T> dynamicType = builder.make()
                 .load(clazz.getClassLoader())
                 .getLoaded();
-         Stream.of(dynamicType.getDeclaredMethods()).forEach(System.out::println);
-        return (T) ConstructorUtils.invokeConstructor(dynamicType);
+ //        Stream.of(dynamicType.getDeclaredMethods()).forEach(System.out::println);
+        return  ConstructorUtils.invokeConstructor(dynamicType);
     }
 }
