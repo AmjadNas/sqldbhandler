@@ -16,6 +16,9 @@ public interface Dummy {
     @Query("SELECT * from movie where id = ?")
     Movie getme(Connection connection, Object... whArgs);
 
+    @Query("SELECT image from movie where id = ?")
+    byte[] getImage(Connection connection, Object... whArgs);
+
     @Insert
     Movie insert(Connection connection, Movie move);
 
