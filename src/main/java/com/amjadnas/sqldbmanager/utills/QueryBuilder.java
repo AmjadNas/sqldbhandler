@@ -57,12 +57,11 @@ public final class QueryBuilder {
         i = 0;
         stringBuilder.append(" WHERE ");
         for (String key : primary) {
-            if (i < primary.length-1) {
+            if (i < primary.length - 1) {
                 stringBuilder.append(key)
                         .append("=? ")
                         .append(" AND ");
-            }
-            else {
+            } else {
                 stringBuilder.append(key)
                         .append("=?");
             }
@@ -80,13 +79,12 @@ public final class QueryBuilder {
                 .append(tableName)
                 .append(" WHERE ");
         int i = 0;
-        for (String key :  primary) {
-            if (i < primary.length-1) {
+        for (String key : primary) {
+            if (i < primary.length - 1) {
                 stringBuilder.append(key)
                         .append("=? ")
                         .append(" AND ");
-            }
-            else {
+            } else {
                 stringBuilder.append(key)
                         .append("=?");
             }
