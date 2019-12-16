@@ -6,7 +6,7 @@ import org.apache.commons.lang3.reflect.ConstructorUtils;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.*;
 import java.util.*;
-
+@Deprecated(since = "0.1.0")
  class ListQueryHandler<E> implements QueryHandler<List<E>> {
 
      public List<E> handleQuery(Connection connection, String query, Class<?> cls, Object...whereArgs) throws SQLException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, ClassNotFoundException {

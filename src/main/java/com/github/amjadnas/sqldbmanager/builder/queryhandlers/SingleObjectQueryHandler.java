@@ -5,7 +5,7 @@ import org.apache.commons.lang3.reflect.ConstructorUtils;
 
 import java.lang.reflect.InvocationTargetException;
 import java.sql.*;
-
+@Deprecated(since = "0.1.0")
  class SingleObjectQueryHandler<E> implements QueryHandler<E> {
 
     @Override

@@ -1,5 +1,10 @@
 package com.github.amjadnas.sqldbmanager.utills;
 
+/**
+ * data container used to hold key value pairs
+ * @param <F> first value
+ * @param <S> second value
+ */
 public class Pair<F, S> {
 
     public final  F first;

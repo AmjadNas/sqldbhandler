@@ -1,5 +1,5 @@
 package com.github.amjadnas.sqldbmanager.builder.queryhandlers;
-
+@Deprecated(since = "0.1.0")
 public final class FactoryQueryHandler {
 
     private FactoryQueryHandler(){}

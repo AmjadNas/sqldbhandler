@@ -2,11 +2,20 @@ package com.github.amjadnas.sqldbmanager.utills;
 
 import java.util.List;
 
+/**
+ * Utility class used to create queries based on provided values
+ */
 public final class QueryBuilder {
 
     private QueryBuilder() {
     }
 
+    /**
+     * creates insert query
+     * @param tableName the name of table in the database
+     * @param pairs pairs of key column names and their values
+     * @return string of the insert query
+     */
     public static String insertQuery(String tableName, List<Pair<String, Object>> pairs) {
 
         int i = 0;
@@ -34,6 +43,13 @@ public final class QueryBuilder {
         return stringBuilder.toString().concat(stringBuilder2.toString());
     }
 
+    /**
+     * creates update query
+     * @param tableName the name of table in the database
+     * @param primary array of strings that represent the primary key of the table
+     * @param pairs pairs of key column names and their values
+     * @return string of the update query
+     */
     public static String updateQuery(String tableName, String[] primary, List<Pair<String, Object>> pairs) {
         StringBuilder stringBuilder = new StringBuilder();
 
@@ -72,6 +88,12 @@ public final class QueryBuilder {
         return stringBuilder.toString();
     }
 
+    /**
+     * creates update query
+     * @param tableName the name of table in the database
+     * @param primary array of strings that represent the primary key of the table
+     * @return string of the delete query
+     */
     public static String deleteQuery(String tableName, String[] primary) {
         StringBuilder stringBuilder = new StringBuilder();
 

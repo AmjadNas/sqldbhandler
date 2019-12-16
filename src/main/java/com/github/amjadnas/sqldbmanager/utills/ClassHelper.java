@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
+@Deprecated(since = "0.1.0")
 public class ClassHelper {
 
     private static ClassHelper instance;
