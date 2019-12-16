@@ -27,8 +27,7 @@ blog/bin/
 **/*.iml
 **/.idea
 **/.gradle
-projects-assignments-server.xml
-projects-assignments-server.properties
+
 
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
