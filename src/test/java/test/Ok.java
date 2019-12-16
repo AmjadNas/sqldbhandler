@@ -1,12 +1,9 @@
 package test;
 
-import com.amjadnas.sqldbmanager.builder.DBHandler;
-import test.*;
+import com.github.amjadnas.sqldbmanager.builder.DBHandler;
 
-import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.Time;
 import java.util.List;
 
 public class Ok  {

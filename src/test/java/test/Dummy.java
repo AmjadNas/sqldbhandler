@@ -1,10 +1,9 @@
 package test;
 
 
-import com.amjadnas.sqldbmanager.annotations.*;
+import com.github.amjadnas.sqldbmanager.annotations.*;
 
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.List;
 
 @Dao

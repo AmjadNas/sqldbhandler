@@ -1,7 +1,7 @@
 package test;
 
-import com.amjadnas.sqldbmanager.annotations.Column;
-import com.amjadnas.sqldbmanager.annotations.Entity;
+import com.github.amjadnas.sqldbmanager.annotations.Column;
+import com.github.amjadnas.sqldbmanager.annotations.Entity;
 
 @Entity(name = "users", primaryKey = {"username"})
 public class User {
