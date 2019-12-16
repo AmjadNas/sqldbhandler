@@ -15,6 +15,9 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * Utility class used to execute getter and setter
+ */
 class ClassHelper2 {
 
     private static ClassHelper2 instance;
@@ -25,6 +28,10 @@ class ClassHelper2 {
 
     }
 
+    /**
+     * stores class information for further use
+     * @param clazz a class that is annotated as Entity
+     */
     static void addClass(Class<?> clazz) {
         if (instance == null)
             throw new IllegalStateException("ClassHelper is not initialized!");
@@ -81,6 +88,13 @@ class ClassHelper2 {
         }
     }
 
+    /**
+     *
+     * @param type type of method setter or a getter
+     * @param field field name
+     * @param clazz the class object to be looked through
+     * @return method handle for the getter or the setter
+     */
     private static MethodHandle findMethod(String type, Field field, Class<?> clazz) {
 
         try {
@@ -102,6 +116,12 @@ class ClassHelper2 {
         return null;
     }
 
+    /**
+     * executes the setter based on the provided column name and object
+     * @param columnName the name of the column that corresponds with the class field
+     * @param o the object the setter to be executed on
+     * @param value the value to be set
+     */
     static void runSetter(String columnName, Object o, Object value) {
         if (instance == null)
             throw new IllegalStateException("ClassHelper is not initialized!");
@@ -130,7 +150,11 @@ class ClassHelper2 {
 
     }
 
-
+    /**
+     * executes the getter based on the provided column name and object
+     * @param columnName the name of the column that corresponds with the class field
+     * @param o the object the getter to be executed on
+     */
     static Object runGetter(String columnName, Object o) {
         if (instance == null)
             throw new IllegalStateException("ClassHelper is not initialized!");
@@ -153,7 +177,13 @@ class ClassHelper2 {
         return null;
     }
 
-
+    /**
+     * returns key value pairs of the column names and their values for a specific object
+     * @param obj the object to
+     * @param <T>
+     * @return returns key value pairs of the column names and their values for a specific object,
+     * fields with null values will be ignored and none annotated ones
+     */
     static <T> List<Pair<String, Object>> getFields(T obj) {
 
         if (instance == null)
@@ -166,6 +196,12 @@ class ClassHelper2 {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * converts the fields to key value pairs
+     * @param entry map entry of column names and their corresponding fields
+     * @param obj the object to get the values from
+     * @return returns key value pairs of the column names and their values for a specific object
+     */
     private static Pair<String, Object> convertToPairs(Map.Entry<String, Field> entry, Object obj) {
         Object value = runGetter(entry.getKey(), obj);
 
