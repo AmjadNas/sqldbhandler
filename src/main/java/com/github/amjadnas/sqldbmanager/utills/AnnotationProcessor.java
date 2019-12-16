@@ -1,6 +1,5 @@
 package com.github.amjadnas.sqldbmanager.utills;
 
-import com.amjadnas.sqldbmanager.annotations.*;
 import com.github.amjadnas.sqldbmanager.annotations.*;
 
 import java.lang.reflect.Field;
