@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"com.github.amjadnas.sqldbmanager.annotations"},{"l":"com.github.amjadnas.sqldbmanager.builder"},{"l":"com.github.amjadnas.sqldbmanager.builder.queryhandlers"},{"l":"com.github.amjadnas.sqldbmanager.exceptions"},{"l":"com.github.amjadnas.sqldbmanager.utills"},{"l":"test"}]

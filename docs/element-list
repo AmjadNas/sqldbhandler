@@ -1,0 +1,6 @@
+com.github.amjadnas.sqldbmanager.annotations
+com.github.amjadnas.sqldbmanager.builder
+com.github.amjadnas.sqldbmanager.builder.queryhandlers
+com.github.amjadnas.sqldbmanager.exceptions
+com.github.amjadnas.sqldbmanager.utills
+test
