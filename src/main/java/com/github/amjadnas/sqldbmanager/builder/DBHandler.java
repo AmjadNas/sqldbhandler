@@ -20,7 +20,7 @@ public final class DBHandler {
      * the classes that are provided in the @Handler annotation must be Entities
      * otherwise an IllegalArgumentException will be thrown.
      * @param handlerClass Class object of the handler to be built
-     * @param <T>
+     * @param <T> database handler class type
      * @return the instance of the handler class
      */
     public static <T> T build(Class<T> handlerClass) {

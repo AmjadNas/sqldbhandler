@@ -7,7 +7,7 @@ import java.lang.annotation.Target;
 
 /**
  * The annotation indicates that the method performs a SELECTION query
- * the method signature must be MyObject/List<MyObject> "methodName"(Connection, Object)
+ * the method signature must be MyObject/List of MyObject "methodName"(Connection, Object)
  * be aware that if the return type was a single object and the query returns a list
  * then the method will return the first object from the selected rows
  */
