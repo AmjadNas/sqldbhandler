@@ -1,5 +1,13 @@
 # sqldbhandler
 This library was created as a side project, but I decided to publish in hopes of it being helpful to other developers. The library was originally inspired by the Room library published by Google for data persistence in Android It aims to eliminate the boilerplate code that comes with parsing the query results. It also provides all the other operations (INSERT, UPDATE, DELETE).
+### Installation
+```
+<dependency>
+    <groupId>com.github.amjadnas</groupId>
+	<artifactId>sql-db-handler</artifactId>
+	<version>1.0.0</version>
+</dependency>
+```
 ### Usage
 #### Definning Entities
 For every object that is used as a POJO it must be annotated as an @Entity and the name of the corresponding table in the database must be provided. It’s fields must be annotated as @Column and the name of the corresponding column must be provided, if the field does not get annotated it will be ignored.
