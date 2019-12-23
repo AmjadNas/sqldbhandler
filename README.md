@@ -8,7 +8,7 @@ This library was created as a side project, but I decided to publish in hopes of
 	<version>1.0.0</version>
 </dependency>
 ```
-### [JavaDocs](https://github.com/AmjadNas/sqldbhandler/blob/master/docs/index.html)
+### [JavaDocs](https://amjadnas.github.io/sqldbhandler/)
 ### Usage
 #### Definning Entities
 For every object that is used as a POJO it must be annotated as an @Entity and the name of the corresponding table in the database must be provided. It’s fields must be annotated as @Column and the name of the corresponding column must be provided, if the field does not get annotated it will be ignored.
