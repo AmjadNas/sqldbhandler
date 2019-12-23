@@ -95,3 +95,6 @@ The defined the DAOs can be accessed by the getters defined in the handler.
 ```java
 Dummy dummy =  handler.getDummDao();
 ```
+#### Limitations
+1) List is the only supported collection type for multiple results queries.
+2) No query linting at compile time, meaning the developer has to make sure the query is syntactically correct.
