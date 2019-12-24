@@ -2,7 +2,7 @@
 This library was created as a side project, but I decided to publish in hopes of it being helpful to other developers. The library was originally inspired by the Room library published by Google for data persistence in Android It aims to eliminate the boilerplate code that comes with parsing the query results. It also provides all the other operations (INSERT, UPDATE, DELETE).
 ### Installation
 Maven:
-```
+```xml
 <dependency>
     <groupId>com.github.amjadnas</groupId>
     <artifactId>sql-db-handler</artifactId>
