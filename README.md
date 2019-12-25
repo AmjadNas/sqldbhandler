@@ -11,6 +11,10 @@ Maven:
     <version>1.0.0</version>
 </dependency>
 ```
+Gradle:
+```
+implementation 'com.github.amjadnas:sql-db-handler:1.0.0'
+```
 [JAR](https://repo1.maven.org/maven2/com/github/amjadnas/sql-db-handler/1.0.0/sql-db-handler-1.0.0.jar)
 ### [Javadocs](https://amjadnas.github.io/sqldbhandler/)
 ### Usage
