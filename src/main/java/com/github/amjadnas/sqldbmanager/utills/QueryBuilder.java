@@ -20,27 +20,27 @@ public final class QueryBuilder {
 
         int i = 0;
 
-        StringBuilder stringBuilder = new StringBuilder();
-        StringBuilder stringBuilder2 = new StringBuilder();
-        stringBuilder2.append(" VALUES (");
-        stringBuilder.append("INSERT INTO ")
+        StringBuilder argumentsBuilder = new StringBuilder();
+        StringBuilder valuesBuilder = new StringBuilder();
+        valuesBuilder.append(" VALUES (");
+        argumentsBuilder.append("INSERT INTO ")
                 .append(tableName)
                 .append(" (");
 
         for (Pair p : pairs) {
             if (i < pairs.size() - 1) {
-                stringBuilder2.append("?,");
-                stringBuilder.append(p.first)
+                valuesBuilder.append("?,");
+                argumentsBuilder.append(p.first)
                         .append(",");
             } else {
-                stringBuilder2.append("?)");
-                stringBuilder.append(p.first)
+                valuesBuilder.append("?)");
+                argumentsBuilder.append(p.first)
                         .append(")");
             }
             i++;
         }
 
-        return stringBuilder.toString().concat(stringBuilder2.toString());
+        return argumentsBuilder.toString().concat(valuesBuilder.toString());
     }
 
     /**

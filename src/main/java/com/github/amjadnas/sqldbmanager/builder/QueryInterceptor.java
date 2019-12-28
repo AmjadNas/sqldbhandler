@@ -8,8 +8,8 @@ import java.sql.SQLException;
 
 public interface QueryInterceptor {
     @RuntimeType
-    Object intercept(Connection connection, Object... whereArgs) throws NoSuchMethodException, InstantiationException, SQLException, IllegalAccessException, InvocationTargetException, ClassNotFoundException;
+    Object handleQueryWithArgs(Connection connection, Object... whereArgs) throws NoSuchMethodException, InstantiationException, SQLException, IllegalAccessException, InvocationTargetException, ClassNotFoundException;
 
     @RuntimeType
-    Object intercept2(Connection connection, Object object) throws SQLException;
+    Object handleQuery(Connection connection, Object object) throws SQLException;
 }

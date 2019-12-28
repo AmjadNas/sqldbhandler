@@ -34,7 +34,7 @@ final class UpdateInterceptor implements QueryInterceptor {
      * @throws SQLException if there were database errors
      */
     @Override
-    public Object intercept(Connection connection, Object... whereArgs) throws NoSuchMethodException, InstantiationException, SQLException, IllegalAccessException, InvocationTargetException, ClassNotFoundException {
+    public Object handleQueryWithArgs(Connection connection, Object... whereArgs) throws NoSuchMethodException, InstantiationException, SQLException, IllegalAccessException, InvocationTargetException, ClassNotFoundException {
         Object object = whereArgs[0];
         Class<?> obj = object.getClass();
         int i = 1;
@@ -77,7 +77,7 @@ final class UpdateInterceptor implements QueryInterceptor {
      * @throws SQLException if there were errors in the update process
      */
     @Override
-    public Object intercept2(Connection connection, Object object) throws SQLException {
+    public Object handleQuery(Connection connection, Object object) throws SQLException {
         Class<?> obj = object.getClass();
         int i = 1;
         if (!AnnotationProcessor.isEntity(obj))

@@ -19,7 +19,7 @@ final class InsertInterceptor implements QueryInterceptor {
     }
 
     @Override
-    public Object intercept(Connection connection, Object... whereArgs) throws NoSuchMethodException, InstantiationException, SQLException, IllegalAccessException, InvocationTargetException, ClassNotFoundException {
+    public Object handleQueryWithArgs(Connection connection, Object... whereArgs) throws NoSuchMethodException, InstantiationException, SQLException, IllegalAccessException, InvocationTargetException, ClassNotFoundException {
         throw new IllegalMethodException("Wrong insert method signature. Insert method arguments must be (Connection, Object) not (Connection, Object[])");
     }
 
@@ -34,7 +34,7 @@ final class InsertInterceptor implements QueryInterceptor {
      * @throws SQLException if the database throws a special sql error
      */
     @Override
-    public Object intercept2(Connection connection, Object object) throws SQLException {
+    public Object handleQuery(Connection connection, Object object) throws SQLException {
         Class<?> obj = object.getClass();
         int i = 1;
         if (!AnnotationProcessor.isEntity(obj))

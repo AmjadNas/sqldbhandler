@@ -45,7 +45,7 @@ final class SingleQueryInterceptor implements QueryInterceptor {
      * @throws ClassNotFoundException    if the class wasn't registered in the JVM
      */
     @Override
-    public Object intercept(Connection connection, Object... whereArgs) throws NoSuchMethodException, InstantiationException, SQLException, IllegalAccessException, InvocationTargetException, ClassNotFoundException {
+    public Object handleQueryWithArgs(Connection connection, Object... whereArgs) throws NoSuchMethodException, InstantiationException, SQLException, IllegalAccessException, InvocationTargetException, ClassNotFoundException {
 
         Object obj = null;
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -84,7 +84,7 @@ final class SingleQueryInterceptor implements QueryInterceptor {
      * @return single selected object from database
      */
     @Override
-    public Object intercept2(Connection connection, Object object) {
+    public Object handleQuery(Connection connection, Object object) {
         throw new RuntimeException("Wrong method signature.  method arguments must be (Connection, Object[]) not (Connection, Object)");
     }
 }
