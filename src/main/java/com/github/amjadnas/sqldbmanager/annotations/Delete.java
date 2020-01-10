@@ -22,7 +22,7 @@ import java.lang.annotation.Target;
  * </p>
  * </li>
  * <li>
- * annotate the method and provide the deleteBy value. In ths case the method must be provided as the
+ * annotate the method and provide the deleteBy value. In this case the method must be provided as the
  *    following void/int "methodName"(Connection, Object[]), where the first object in
  *    the array of objects is the object to be deleted and the rest is the values of the where arguments
  *    if the objects where not set then the database might throw a SQLException or the library will ignore
