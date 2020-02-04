@@ -1,7 +1,7 @@
 # sqldbhandler
 [![Maven Central](https://img.shields.io/maven-central/v/com.github.amjadnas/sql-db-handler.svg?label=Maven%20Central)](https://search.maven.org/artifact/com.github.amjadnas/sql-db-handler/1.0.0/jar%22)
 
-This library was created as a side project. I decided to publish it in hopes of it being helpful to other developers. The library was originally inspired by the Room library published by Google for data persistence in Android. It aims to eliminate the boilerplate code that comes with parsing the query results. It also provides all the other operations (INSERT, UPDATE, DELETE).
+This library was created as a side project. I decided to publish it in hopes of it being helpful to other developers. The library was originally inspired by the [Room library](https://developer.android.com/topic/libraries/architecture/room) published by Google for data persistence in Android. It aims to eliminate the boilerplate code that comes with parsing the query results. It also provides all the other operations (INSERT, UPDATE, DELETE).
 ### Installation
 Maven:
 ```xml
